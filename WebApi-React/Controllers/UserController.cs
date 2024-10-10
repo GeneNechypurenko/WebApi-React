@@ -14,8 +14,8 @@ namespace WebApi_React.Controllers
 
         public UserController(UserRepository userRepository) => _userRepository = userRepository;
 
-        [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -25,14 +25,14 @@ namespace WebApi_React.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost]
+        [HttpPost("logout")]
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -43,14 +43,14 @@ namespace WebApi_React.Controllers
                     var user = new User
                     {
                         Username = model.Username,
-                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password)
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
+
                     };
 
                     await _userRepository.AddUserAsync(user);
                     return Ok();
                 }
             }
-
             return BadRequest(ModelState);
         }
     }
