@@ -24,5 +24,12 @@ namespace WebApi_React.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return Ok();
+        }
     }
 }
