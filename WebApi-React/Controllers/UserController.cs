@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi_React.Models;
 using WebApi_React.Repositories;
 using WebApi_React.ViewModels;
 
@@ -9,9 +10,9 @@ namespace WebApi_React.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly MessageRepository _messageRepository;
+        private readonly UserRepository _userRepository;
 
-        public UserController(MessageRepository messageRepository) => _messageRepository = messageRepository;
+        public UserController(UserRepository userRepository) => _userRepository = userRepository;
 
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
