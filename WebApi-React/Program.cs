@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using WebApi_React.Data;
+using WebApi_React.Repositories;
 
 namespace WebApi_React
 {
@@ -13,6 +14,9 @@ namespace WebApi_React
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<UserRepository, UserRepository>();
+            builder.Services.AddScoped<MessageRepository, MessageRepository>();
 
             builder.Services.AddCors(options =>
             {
