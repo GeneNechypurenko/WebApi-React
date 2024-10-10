@@ -24,5 +24,27 @@ namespace WebApi_React.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingUser = await _userRepository.GetUserByUsernameAsync(model.Username);
+                if (existingUser == null)
+                {
+                    var user = new User
+                    {
+                        Username = model.Username,
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password)
+                    };
+
+                    await _userRepository.AddUserAsync(user);
+                    return Ok();
+                }
+            }
+
+            return BadRequest(ModelState);
+        }
     }
 }
